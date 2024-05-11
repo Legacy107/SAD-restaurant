@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 
 namespace KoalaMenu;

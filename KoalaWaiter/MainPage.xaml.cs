@@ -29,7 +29,6 @@ public partial class MainPage : ContentPage
 		if (chip is not null)
 			Console.WriteLine(chip.Description);
 
-        //return await todos.ToListAsync();
 		count++;
 
 		if (count == 1)
