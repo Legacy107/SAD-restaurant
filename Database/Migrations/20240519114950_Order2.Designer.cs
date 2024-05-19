@@ -4,6 +4,7 @@ using Database.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(MenuContext))]
-    partial class MenuContextModelSnapshot : ModelSnapshot
+    [Migration("20240519114950_Order2")]
+    partial class Order2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,35 +151,29 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.MenuItemOption", b =>
                 {
-                    b.HasOne("Database.Models.MenuItem", "MenuItem")
+                    b.HasOne("Database.Models.MenuItem", null)
                         .WithMany("Options")
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MenuItem");
                 });
 
             modelBuilder.Entity("Database.Models.MenuItemVariation", b =>
                 {
-                    b.HasOne("Database.Models.MenuItem", "MenuItem")
+                    b.HasOne("Database.Models.MenuItem", null)
                         .WithMany("Variations")
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MenuItem");
                 });
 
             modelBuilder.Entity("Database.Models.OrderItem", b =>
                 {
-                    b.HasOne("Database.Models.Order", "Order")
+                    b.HasOne("Database.Models.Order", null)
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Database.Models.MenuItem", b =>
