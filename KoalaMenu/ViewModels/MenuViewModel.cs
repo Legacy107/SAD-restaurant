@@ -19,6 +19,7 @@ internal partial class MenuViewModel : ObservableObject
 	private Dictionary<int, string> notes = new();
 	private Dictionary<int, int> quantities = new();
 	public ObservableCollection<Database.Models.MenuItem> MenuItems { get; private set; }
+	public int TableNumber { get; private set; }
 
 	private OrderBuilder orderBuilder;
 	public OrderCartViewModel OrderCart { get; private set; }
@@ -31,14 +32,16 @@ internal partial class MenuViewModel : ObservableObject
 
 	public MenuViewModel()
 	{
-		var settings = new Settings();
+		var settings = new Database.Settings();
 		var connectionString = $"Server={settings.DbHost};Port={settings.DbPort};User={settings.DbUser};Password={settings.DbPassword};Database={settings.DbDatabase}";
 
 		_context = new MenuContext(connectionString);
 		menu = new Menu(_context);
         MenuItems = new ObservableCollection<Database.Models.MenuItem>(menu.Items);
 
-		orderBuilder = new OrderBuilder(_context, new Table { Id = 1 });
+		var appSettings = new Settings();
+        TableNumber = appSettings.TableId;
+        orderBuilder = new OrderBuilder(_context, new Table { Id = TableNumber });
 		OrderCart = new OrderCartViewModel(orderBuilder);
 
         ClickCommand = new RelayCommand<Database.Models.MenuItem>(Click);

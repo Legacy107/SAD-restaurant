@@ -35,6 +35,11 @@ internal partial class WaiterViewModel : ObservableObject
         CancelOrderItemCommand = new RelayCommand<OrderItemCommand>(CancelOrderItem);
 
         FailedItemsViewModel = new FailedItemsViewModel();
+
+        var timer = Application.Current.Dispatcher.CreateTimer();
+        timer.Interval = TimeSpan.FromSeconds(5);
+        timer.Tick += (sender, e) => servingItemQueue.FetchOrderItems();
+        timer.Start();
     }
 
     public void CompleteOrderItem(OrderItemCommand? orderItemCommand)

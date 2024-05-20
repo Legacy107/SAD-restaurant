@@ -29,6 +29,11 @@ public partial class FailedItemsViewModel : ObservableObject
         failedItemQueue = new FailedItemQueue(context);
 
         DismissOrderItemCommand = new RelayCommand<OrderItemCommand>(DismissOrderItem);
+
+        var timer = Application.Current.Dispatcher.CreateTimer();
+        timer.Interval = TimeSpan.FromSeconds(5);
+        timer.Tick += (sender, e) => failedItemQueue.FetchOrderItems();
+        timer.Start();
     }
 
     public void DismissOrderItem(OrderItemCommand? orderItemCommand)

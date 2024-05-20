@@ -9,7 +9,10 @@ public class ServingItemQueue : OrderItemQueue
 {
     public ServingItemQueue(MenuContext context) : base(context)
     {
-        // query all order items in read status and add them to the queue
+    }
+
+    public override void FetchOrderItems()
+    {
         var orderItems = Context.OrderItem
             .Include(orderItem => orderItem.Order)
             .Include(orderItem => orderItem.MenuItemOption)
@@ -21,7 +24,7 @@ public class ServingItemQueue : OrderItemQueue
             .ToList();
         foreach (var orderItem in orderItems)
         {
-            Add(new ServingCommand(context, orderItem));
+            Add(new ServingCommand(Context, orderItem));
         }
     }
 }

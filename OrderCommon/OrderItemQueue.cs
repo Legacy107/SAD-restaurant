@@ -5,7 +5,7 @@ using Database.Data;
 
 namespace OrderCommon;
 
-public class OrderItemQueue : ObservableObject
+public abstract class OrderItemQueue : ObservableObject
 {
 	protected MenuContext Context { get; private set; }
 	public ObservableCollection<OrderItemCommand> Queue { get; private set; }
@@ -14,11 +14,27 @@ public class OrderItemQueue : ObservableObject
 	{
 		Context = context;
 		Queue = new ObservableCollection<OrderItemCommand>();
+		FetchOrderItems();
+	}
+
+	public abstract void FetchOrderItems();
+
+	public bool Contains(OrderItemCommand command)
+	{
+		foreach (var item in Queue)
+		{
+			if (item.OrderItem.Id == command.OrderItem.Id)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void Add(OrderItemCommand command)
 	{
-		Queue.Add(command);
+		if (!Contains(command))
+			Queue.Add(command);
 	}
 
 	public void Remove(OrderItemCommand command)

@@ -9,7 +9,10 @@ public class KitchenItemQueue : OrderItemQueue
 {
     public KitchenItemQueue(MenuContext context) : base(context)
     {
-        // query all order items in pending status and add them to the queue
+    }
+
+    public override void FetchOrderItems()
+    {
         var orderItems = Context.OrderItem
             .Include(orderItem => orderItem.Order)
             .Include(orderItem => orderItem.MenuItemOption)
@@ -21,7 +24,7 @@ public class KitchenItemQueue : OrderItemQueue
             .ToList();
         foreach (var orderItem in orderItems)
         {
-            Add(new DineinCommand(context, orderItem));
+            Add(new DineinCommand(Context, orderItem));
         }
     }
 }

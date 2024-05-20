@@ -19,7 +19,7 @@ public class DineinCommand : OrderItemCommand
 
     public override void Cancel()
     {
-        OrderItem.Status = OrderItemStatus.Canceled;
+        OrderItem.Status = OrderItemStatus.Cancelled;
         Context.OrderItem.Update(OrderItem);
         Context.SaveChanges();
     }

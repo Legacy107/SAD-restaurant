@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Database;
 using Database.Data;
 using KoalaKitchen.Base;
+using OrderCommon;
 
 namespace KoalaKitchen.ViewModels;
 
@@ -29,6 +30,11 @@ internal partial class KitchenViewModel : ObservableObject
 
         CompleteOrderItemCommand = new RelayCommand<OrderItemCommand>(CompleteOrderItem);
         CancelOrderItemCommand = new RelayCommand<OrderItemCommand>(CancelOrderItem);
+
+        var timer = Application.Current.Dispatcher.CreateTimer();
+        timer.Interval = TimeSpan.FromSeconds(5);
+        timer.Tick += (sender, e) => kitchenItemQueue.FetchOrderItems();
+        timer.Start();
     }
 
     public void CompleteOrderItem(OrderItemCommand? orderItemCommand)
