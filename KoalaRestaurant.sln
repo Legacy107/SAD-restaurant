@@ -1,21 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1706.11
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoalaMenu", "KoalaMenu\KoalaMenu.csproj", "{08CAFE06-A76E-439E-80E9-BF3FC33E07BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoalaMenu", "KoalaMenu\KoalaMenu.csproj", "{08CAFE06-A76E-439E-80E9-BF3FC33E07BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{E5A22663-AC17-4E34-ABC1-19BA0AA34C41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{E5A22663-AC17-4E34-ABC1-19BA0AA34C41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoalaKitchen", "KoalaKitchen\KoalaKitchen.csproj", "{44F194AE-BAF4-49D0-B23C-E8870F1E5D5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoalaKitchen", "KoalaKitchen\KoalaKitchen.csproj", "{44F194AE-BAF4-49D0-B23C-E8870F1E5D5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoalaWaiter", "KoalaWaiter\KoalaWaiter.csproj", "{0010941B-6802-445E-907F-70EFC3C8A5D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoalaWaiter", "KoalaWaiter\KoalaWaiter.csproj", "{0010941B-6802-445E-907F-70EFC3C8A5D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoalaReception", "KoalaReception\KoalaReception.csproj", "{CC96422F-5ACF-4A33-9E75-8105697DB212}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoalaReception", "KoalaReception\KoalaReception.csproj", "{CC96422F-5ACF-4A33-9E75-8105697DB212}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoalaPayment", "KoalaPayment\KoalaPayment.csproj", "{3A1D47DE-4C4C-4671-8D78-7E448DE97E89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoalaPayment", "KoalaPayment\KoalaPayment.csproj", "{3A1D47DE-4C4C-4671-8D78-7E448DE97E89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoalaManagement", "KoalaManagement\KoalaManagement.csproj", "{51DDBA34-801A-4169-843A-21E9CFC71588}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KoalaManagement", "KoalaManagement\KoalaManagement.csproj", "{51DDBA34-801A-4169-843A-21E9CFC71588}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +33,7 @@ Global
 		{E5A22663-AC17-4E34-ABC1-19BA0AA34C41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44F194AE-BAF4-49D0-B23C-E8870F1E5D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44F194AE-BAF4-49D0-B23C-E8870F1E5D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F194AE-BAF4-49D0-B23C-E8870F1E5D5F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{44F194AE-BAF4-49D0-B23C-E8870F1E5D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44F194AE-BAF4-49D0-B23C-E8870F1E5D5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0010941B-6802-445E-907F-70EFC3C8A5D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -41,10 +42,13 @@ Global
 		{0010941B-6802-445E-907F-70EFC3C8A5D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC96422F-5ACF-4A33-9E75-8105697DB212}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC96422F-5ACF-4A33-9E75-8105697DB212}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC96422F-5ACF-4A33-9E75-8105697DB212}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{CC96422F-5ACF-4A33-9E75-8105697DB212}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC96422F-5ACF-4A33-9E75-8105697DB212}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC96422F-5ACF-4A33-9E75-8105697DB212}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{3A1D47DE-4C4C-4671-8D78-7E448DE97E89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A1D47DE-4C4C-4671-8D78-7E448DE97E89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1D47DE-4C4C-4671-8D78-7E448DE97E89}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{3A1D47DE-4C4C-4671-8D78-7E448DE97E89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A1D47DE-4C4C-4671-8D78-7E448DE97E89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{51DDBA34-801A-4169-843A-21E9CFC71588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -62,13 +66,12 @@ Global
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
-		$0.TextStylePolicy = $2
+		$0.TextStylePolicy = $4
 		$2.inheritsSet = null
 		$2.scope = application/xaml
 		$0.XmlFormattingPolicy = $3
 		$3.inheritsSet = null
 		$3.scope = application/xaml
-		$0.TextStylePolicy = $4
 		$4.inheritsSet = null
 		$4.scope = text/x-json
 	EndGlobalSection

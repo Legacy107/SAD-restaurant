@@ -3,13 +3,13 @@
     x:Class="KoalaReception.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:KoalaReception"
+    xmlns:local="clr-namespace:KoalaReception.Views"
     Shell.FlyoutBehavior="Disabled"
     Title="KoalaReception">
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        ContentTemplate="{DataTemplate local:HomePage}"
         Route="MainPage" />
 
 </Shell>
