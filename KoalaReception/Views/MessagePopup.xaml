@@ -1,0 +1,12 @@
+<toolkit:Popup 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:KoalaReception.ViewModels"
+    x:Class="KoalaReception.Views.MessagePopup"
+    Size="300,200">
+    <VerticalStackLayout Padding="10" Spacing="10">
+        <Label x:Name="MessageLabel" Text="{Binding Message}" TextColor="Red" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Button Text="OK" Clicked="OnReturnToHomeClicked" HorizontalOptions="Center" VerticalOptions="Center"/>
+    </VerticalStackLayout>
+</toolkit:Popup>

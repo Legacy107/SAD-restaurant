@@ -4,6 +4,7 @@ using Database.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class MenuContextModelSnapshot : ModelSnapshot
+    [Migration("20240511152103_ReservationCheckIn")]
+    partial class ReservationCheckIn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,55 +50,10 @@ namespace Database.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Available")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MenuItem");
-                });
-
-            modelBuilder.Entity("Database.Models.MenuItemOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuItemId");
-
-                    b.ToTable("MenuItemOption");
-                });
-
-            modelBuilder.Entity("Database.Models.MenuItemVariation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<float>("Price")
@@ -103,127 +61,7 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MenuItemId");
-
-                    b.ToTable("MenuItemVariation");
-                });
-
-            modelBuilder.Entity("Database.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TableId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("Database.Models.OrderItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MenuItemOptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MenuItemVariationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuItemOptionId");
-
-                    b.HasIndex("MenuItemVariationId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItem");
-                });
-
-            modelBuilder.Entity("Database.Models.MenuItemOption", b =>
-                {
-                    b.HasOne("Database.Models.MenuItem", "MenuItem")
-                        .WithMany("Options")
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MenuItem");
-                });
-
-            modelBuilder.Entity("Database.Models.MenuItemVariation", b =>
-                {
-                    b.HasOne("Database.Models.MenuItem", "MenuItem")
-                        .WithMany("Variations")
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MenuItem");
-                });
-
-            modelBuilder.Entity("Database.Models.OrderItem", b =>
-                {
-                    b.HasOne("Database.Models.MenuItemOption", "MenuItemOption")
-                        .WithMany()
-                        .HasForeignKey("MenuItemOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Database.Models.MenuItemVariation", "MenuItemVariation")
-                        .WithMany()
-                        .HasForeignKey("MenuItemVariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Database.Models.Order", "Order")
-                        .WithMany("Items")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MenuItemOption");
-
-                    b.Navigation("MenuItemVariation");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("Database.Models.MenuItem", b =>
-                {
-                    b.Navigation("Options");
-
-                    b.Navigation("Variations");
-                });
-
-            modelBuilder.Entity("Database.Models.Order", b =>
-                {
-                    b.Navigation("Items");
+                    b.ToTable("MenuItem");
                 });
 
             modelBuilder.Entity("Database.Models.Reservation", b =>
@@ -233,6 +71,9 @@ namespace Database.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CPhone")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("HasShownUp")

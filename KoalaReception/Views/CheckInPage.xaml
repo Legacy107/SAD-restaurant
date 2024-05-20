@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KoalaReception.Views.CheckInPage"
+             xmlns:viewModels="clr-namespace:KoalaReception.ViewModels"
+             xmlns:models="clr-namespace:KoalaReception.Models.DTO"
+             xmlns:converters="clr-namespace:KoalaReception.Views.Converters"
+             x:DataType="viewModels:CheckInViewModel"
+             Title="Check In">
+    <StackLayout IsVisible="{Binding IsCheckInWithoutReservation}">
+        <Label Text="Please select tables" IsVisible="{Binding IsSelectionError}" TextColor="Red" Margin="10" HorizontalOptions="Center"/>
+        <Label Text="{Binding EstimateWaitTime}" IsVisible="{Binding NoAvailableTable}" TextColor="Red" HorizontalOptions="CenterAndExpand" Margin="20" FontSize="Medium"/>
+        <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout Margin="10" Orientation="Horizontal">
+                <!-- Legends -->
+                <StackLayout Margin="50,0,0,0">
+                    <Label Text="Legends:" FontAttributes="Bold" Margin="3,0,0,5"/>
+                    <StackLayout Orientation="Horizontal" Margin="5">
+                        <BoxView Color="Green" WidthRequest="20" HeightRequest="20" />
+                        <Label Text="Available" VerticalOptions="CenterAndExpand" Margin="3,0,0,0"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Margin="5">
+                        <BoxView Color="Red" WidthRequest="20" HeightRequest="20" />
+                        <Label Text="Occupied" VerticalOptions="CenterAndExpand" Margin="3,0,0,0"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Margin="5">
+                        <BoxView Color="Gray" WidthRequest="20" HeightRequest="20" />
+                        <Label Text="Reserved" VerticalOptions="CenterAndExpand" Margin="3,0,0,0"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Margin="5">
+                        <BoxView Color="Yellow" WidthRequest="20" HeightRequest="20" />
+                        <Label Text="Selected" VerticalOptions="CenterAndExpand" Margin="3,0,0,0"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="Do you have any seat preference?" FontAttributes="Bold" Margin="20"/>
+                        <RadioButton Content="None" Value="None" IsChecked="True" Margin="-2">
+                            <RadioButton.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding UpdateTableFilteringCommand}" CommandParameter="None" />
+                            </RadioButton.GestureRecognizers>
+                        </RadioButton>
+                        <RadioButton Content="Outdoor seating" Value="Outdoor seating" Margin="-2">
+                            <RadioButton.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding UpdateTableFilteringCommand}" CommandParameter="Outdoor seating" />
+                            </RadioButton.GestureRecognizers>
+                        </RadioButton>
+                        <RadioButton Content="Window seat" Value="Window seat" Margin="-2">
+                            <RadioButton.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding UpdateTableFilteringCommand}" CommandParameter="Window seat" />
+                            </RadioButton.GestureRecognizers>
+                        </RadioButton>
+                        <RadioButton Content="VIP" Value="VIP" Margin="-2">
+                            <RadioButton.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding UpdateTableFilteringCommand}" CommandParameter="VIP" />
+                            </RadioButton.GestureRecognizers>
+                        </RadioButton>
+                        <RadioButton Content="Handicapped support" Value="Handicapped support" Margin="-2">
+                            <RadioButton.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding UpdateTableFilteringCommand}" CommandParameter="Handicapped support" />
+                            </RadioButton.GestureRecognizers>
+                        </RadioButton>
+                        <RadioButton Content="Child support" Value="Child support" Margin="-2">
+                            <RadioButton.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding UpdateTableFilteringCommand}" CommandParameter="Child support" />
+                            </RadioButton.GestureRecognizers>
+                        </RadioButton>
+                    </StackLayout>
+                </StackLayout>
+                <CollectionView ItemsSource="{Binding Tables}"
+                            VerticalOptions="CenterAndExpand" 
+                            HorizontalOptions="CenterAndExpand"
+                            SelectedItems="{Binding SelectedTables, Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding SelectionChangedCommand}"
+                            SelectionChangedCommandParameter="{Binding .}"
+                            SelectionMode="Multiple">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="4" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:TableDTO">
+                            <Border Margin="10" Padding="10"
+                              BackgroundColor="{Binding Status, Converter={converters:TableStatusToColorConverter}}"
+                              VerticalOptions="StartAndExpand"
+                              Stroke="{Binding OnFiltered, Converter={converters:FilterToStrokeConverter}}"
+                              StrokeThickness="3">
+                                <Label Text="{Binding TableId}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+        <Button HorizontalOptions="StartAndExpand" Margin="50,20,20,20" Text="Submit" Command="{Binding SubmitCheckInCommand}" IsEnabled="{Binding IsTableSelected}" WidthRequest="100" HeightRequest="50"/>
+    </StackLayout>
+</ContentPage>
