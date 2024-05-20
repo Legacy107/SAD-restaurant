@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(MenuContext))]
-    [Migration("20240519120921_OrderNavigation")]
-    partial class OrderNavigation
+    [Migration("20240520013021_OrderItemNavigation")]
+    partial class OrderItemNavigation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,6 +144,10 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MenuItemOptionId");
+
+                    b.HasIndex("MenuItemVariationId");
+
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItem");
@@ -173,13 +177,29 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.OrderItem", b =>
                 {
+                    b.HasOne("Database.Models.MenuItemOption", "Option")
+                        .WithMany()
+                        .HasForeignKey("MenuItemOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Database.Models.MenuItemVariation", "Variation")
+                        .WithMany()
+                        .HasForeignKey("MenuItemVariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Database.Models.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Option");
+
                     b.Navigation("Order");
+
+                    b.Navigation("Variation");
                 });
 
             modelBuilder.Entity("Database.Models.MenuItem", b =>

@@ -1,0 +1,27 @@
+using Database.Data;
+using Database.Models;
+using Microsoft.EntityFrameworkCore;
+using OrderCommon;
+
+namespace KoalaKitchen.Base;
+
+public class KitchenItemQueue : OrderItemQueue
+{
+    public KitchenItemQueue(MenuContext context) : base(context)
+    {
+        // query all order items in pending status and add them to the queue
+        var orderItems = Context.OrderItem
+            .Include(orderItem => orderItem.Order)
+            .Include(orderItem => orderItem.MenuItemOption)
+            .Include(orderItem => orderItem.MenuItemVariation)
+            .Include(orderItem => orderItem.MenuItemVariation.MenuItem)
+            .Where(orderItem => orderItem.Status == OrderItemStatus.Pending)
+            .OrderBy(orderItem => orderItem.Order.Created)
+            .OrderBy(orderItem => orderItem.OrderId)
+            .ToList();
+        foreach (var orderItem in orderItems)
+        {
+            Add(new DineinCommand(context, orderItem));
+        }
+    }
+}

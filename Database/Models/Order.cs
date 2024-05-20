@@ -9,7 +9,7 @@ namespace Database.Models
         Pending,
         Ready,
         Completed,
-        Canceled,
+        Cancelled,
     }
 
     public class Order

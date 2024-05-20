@@ -31,14 +31,17 @@ namespace KoalaMenu.Base
             Order order = new Order{ TableId = table.Id };
             foreach (OrderRequest request in OrderRequests)
             {
-                OrderItem orderItem = new OrderItem
+                for (int i = 0; i < request.Quantity; i++)
                 {
-                    OrderId = order.Id,
-                    MenuItemOptionId = request.Variation.Id,
-                    MenuItemVariationId = request.Option.Id,
-                    Note = request.Note
-                };
-                order.Items.Add(orderItem);
+                    OrderItem orderItem = new OrderItem
+                    {
+                        OrderId = order.Id,
+                        MenuItemOptionId = request.Option.Id,
+                        MenuItemVariationId = request.Variation.Id,
+                        Note = request.Note
+                    };
+                    order.Items.Add(orderItem);
+                }
             }
 
             // Clear the orderItems list
