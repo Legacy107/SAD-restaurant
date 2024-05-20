@@ -7,7 +7,7 @@ namespace KoalaWaiter;
 public partial class MainPage : ContentPage
 {
 	int count = 0;
-	MenuContext _context;
+	DataContext _context;
 
 	public MainPage()
 	{
@@ -15,7 +15,7 @@ public partial class MainPage : ContentPage
 		var connectionString = $"Server={settings.DbHost};Port={settings.DbPort};User={settings.DbUser};Password={settings.DbPassword};Database={settings.DbDatabase}";
 		Console.WriteLine(connectionString);
 
-		_context = new MenuContext(connectionString);
+		_context = new DataContext(connectionString);
 		InitializeComponent();
 	}
 
