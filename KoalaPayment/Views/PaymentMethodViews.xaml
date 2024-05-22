@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KoalaPayment.Views.PaymentMethodViews"
+             xmlns:vm="clr-namespace:KoalaPayment.ViewModels"
+             x:DataType="vm:PaymentMethodViewModels"
+             Title="Payment Reader">
+    <VerticalStackLayout Padding="80" HorizontalOptions="Start">
+        <Entry Placeholder="Table Number" Text="{Binding TableNumber}" WidthRequest="200"/>
+        <Picker ItemsSource="{Binding PaymentTypes}" SelectedItem="{Binding SelectedPaymentType}" Margin="0, 20, 0, 20"/>
+        <Picker ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}" Margin="0, 10, 0, 10"/>
+        <Button Text="Process Payment" Command="{Binding ProcessPaymentCommand}" Margin="0, 10, 0, 10"/>
+        <Label Text="{Binding PaymentStatus}"/>
+    </VerticalStackLayout>
+</ContentPage>
