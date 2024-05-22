@@ -1,4 +1,4 @@
-﻿namespace KoalaMenu;
+﻿namespace KoalaMenu.Views;
 
 public partial class MenuPage : ContentPage
 {

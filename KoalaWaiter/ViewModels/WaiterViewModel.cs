@@ -12,8 +12,6 @@ namespace KoalaWaiter.ViewModels;
 
 internal partial class WaiterViewModel : ObservableObject
 {
-
-    private MenuContext context;
     private OrderItemQueue servingItemQueue;
     public ObservableCollection<OrderItemCommand> OrderItemQueue => servingItemQueue.Queue;
 
@@ -24,11 +22,7 @@ internal partial class WaiterViewModel : ObservableObject
 
     public WaiterViewModel()
     {
-        var settings = new Settings();
-        var connectionString = $"Server={settings.DbHost};Port={settings.DbPort};User={settings.DbUser};Password={settings.DbPassword};Database={settings.DbDatabase}";
-        Console.WriteLine(connectionString);
-
-        context = new MenuContext(connectionString);
+        var context = new DataContext();
         servingItemQueue = new ServingItemQueue(context);
 
         CompleteOrderItemCommand = new RelayCommand<OrderItemCommand>(CompleteOrderItem);

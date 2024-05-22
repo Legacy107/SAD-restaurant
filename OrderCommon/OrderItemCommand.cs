@@ -5,10 +5,10 @@ namespace OrderCommon;
 
 public abstract class OrderItemCommand
 {
-    protected MenuContext Context;
+    protected DataContext Context;
 	public OrderItem OrderItem { get; private set; }
 
-    public OrderItemCommand(MenuContext context, OrderItem orderItem)
+    public OrderItemCommand(DataContext context, OrderItem orderItem)
     {
         OrderItem = orderItem;
         Context = context;

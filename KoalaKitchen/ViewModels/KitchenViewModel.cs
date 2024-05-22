@@ -12,7 +12,6 @@ namespace KoalaKitchen.ViewModels;
 
 internal partial class KitchenViewModel : ObservableObject
 {
-    private MenuContext context;
     private OrderItemQueue kitchenItemQueue;
     public ObservableCollection<OrderItemCommand> OrderItemQueue => kitchenItemQueue.Queue;
 
@@ -21,11 +20,7 @@ internal partial class KitchenViewModel : ObservableObject
 
     public KitchenViewModel()
     {
-        var settings = new Settings();
-        var connectionString = $"Server={settings.DbHost};Port={settings.DbPort};User={settings.DbUser};Password={settings.DbPassword};Database={settings.DbDatabase}";
-        Console.WriteLine(connectionString);
-
-        context = new MenuContext(connectionString);
+        var context = new DataContext();
         kitchenItemQueue = new KitchenItemQueue(context);
 
         CompleteOrderItemCommand = new RelayCommand<OrderItemCommand>(CompleteOrderItem);

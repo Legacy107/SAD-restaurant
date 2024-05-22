@@ -4,16 +4,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Database.Data;
 using Database.Models;
 
-namespace KoalaMenu.Base
+namespace KoalaMenu.Models
 {
     public class OrderBuilder : ObservableObject
     {
         public ObservableCollection<OrderRequest> OrderRequests { get; set; }
 
         private Table table;
-        MenuContext _context;
+        DataContext _context;
 
-        public OrderBuilder(MenuContext context, Table _table)
+        public OrderBuilder(DataContext context, Table _table)
         {
             OrderRequests = new ObservableCollection<OrderRequest>();
             table = _table;

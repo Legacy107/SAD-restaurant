@@ -7,7 +7,7 @@ namespace KoalaWaiter.Base;
 
 public class ServingItemQueue : OrderItemQueue
 {
-    public ServingItemQueue(MenuContext context) : base(context)
+    public ServingItemQueue(DataContext context) : base(context)
     {
     }
 

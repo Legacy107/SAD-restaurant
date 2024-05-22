@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
-    [DbContext(typeof(MenuContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20240520054351_OrderItemStatus")]
     partial class OrderItemStatus
     {

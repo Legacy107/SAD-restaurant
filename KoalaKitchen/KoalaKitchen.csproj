@@ -74,13 +74,13 @@
 	  <ProjectReference Include="..\OrderCommon\OrderCommon.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="Base\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
+	  <None Remove="Models\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Base\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
+	  <Folder Include="Models\" />
 	</ItemGroup>
 </Project>

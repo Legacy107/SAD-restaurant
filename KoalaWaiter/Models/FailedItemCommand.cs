@@ -6,7 +6,7 @@ namespace KoalaWaiter.Base;
 
 public class FailedItemCommand : OrderItemCommand
 {
-    public FailedItemCommand(MenuContext context, OrderItem orderItem) : base(context, orderItem)
+    public FailedItemCommand(DataContext context, OrderItem orderItem) : base(context, orderItem)
     {
     }
 

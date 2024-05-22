@@ -7,10 +7,10 @@ namespace OrderCommon;
 
 public abstract class OrderItemQueue : ObservableObject
 {
-	protected MenuContext Context { get; private set; }
+	protected DataContext Context { get; private set; }
 	public ObservableCollection<OrderItemCommand> Queue { get; private set; }
 
-	public OrderItemQueue(MenuContext context)
+	public OrderItemQueue(DataContext context)
 	{
 		Context = context;
 		Queue = new ObservableCollection<OrderItemCommand>();

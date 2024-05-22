@@ -12,8 +12,6 @@ namespace KoalaWaiter.ViewModels;
 
 public partial class FailedItemsViewModel : ObservableObject
 {
-
-    private MenuContext context;
     private OrderItemQueue failedItemQueue;
     public ObservableCollection<OrderItemCommand> OrderItemQueue => failedItemQueue.Queue;
 
@@ -21,11 +19,7 @@ public partial class FailedItemsViewModel : ObservableObject
 
     public FailedItemsViewModel()
     {
-        var settings = new Settings();
-        var connectionString = $"Server={settings.DbHost};Port={settings.DbPort};User={settings.DbUser};Password={settings.DbPassword};Database={settings.DbDatabase}";
-        Console.WriteLine(connectionString);
-
-        context = new MenuContext(connectionString);
+        var context = new DataContext();
         failedItemQueue = new FailedItemQueue(context);
 
         DismissOrderItemCommand = new RelayCommand<OrderItemCommand>(DismissOrderItem);

@@ -77,11 +77,11 @@
 	<ItemGroup>
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
-	  <None Remove="Base\" />
+	  <None Remove="Models\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
-	  <Folder Include="Base\" />
+	  <Folder Include="Models\" />
 	</ItemGroup>
 </Project>

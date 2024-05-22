@@ -1,13 +1,13 @@
-using Database.Data;
+﻿using Database.Data;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using OrderCommon;
 
-namespace KoalaKitchen.Base;
+namespace KoalaWaiter.Base;
 
-public class KitchenItemQueue : OrderItemQueue
+public class FailedItemQueue : OrderItemQueue
 {
-    public KitchenItemQueue(MenuContext context) : base(context)
+    public FailedItemQueue(DataContext context) : base(context)
     {
     }
 
@@ -18,13 +18,13 @@ public class KitchenItemQueue : OrderItemQueue
             .Include(orderItem => orderItem.MenuItemOption)
             .Include(orderItem => orderItem.MenuItemVariation)
             .Include(orderItem => orderItem.MenuItemVariation.MenuItem)
-            .Where(orderItem => orderItem.Status == OrderItemStatus.Pending)
+            .Where(orderItem => orderItem.Status == OrderItemStatus.Cancelled)
             .OrderBy(orderItem => orderItem.Order.Created)
             .OrderBy(orderItem => orderItem.OrderId)
             .ToList();
         foreach (var orderItem in orderItems)
         {
-            Add(new DineinCommand(Context, orderItem));
+            Add(new FailedItemCommand(Context, orderItem));
         }
     }
 }

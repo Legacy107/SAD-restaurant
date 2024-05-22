@@ -6,7 +6,7 @@ namespace KoalaWaiter.Base;
 
 public class ServingCommand : OrderItemCommand
 {
-    public ServingCommand(MenuContext context, OrderItem orderItem) : base(context, orderItem)
+    public ServingCommand(DataContext context, OrderItem orderItem) : base(context, orderItem)
     {
     }
 

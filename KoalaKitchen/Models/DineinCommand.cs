@@ -6,7 +6,7 @@ namespace KoalaKitchen.Base;
 
 public class DineinCommand : OrderItemCommand
 {
-    public DineinCommand(MenuContext context, OrderItem orderItem) : base(context, orderItem)
+    public DineinCommand(DataContext context, OrderItem orderItem) : base(context, orderItem)
     {
     }
 
