@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KoalaPayment.Views.CheckoutViews"
+             Title="Checkout Screen"
+             xmlns:vm="clr-namespace:KoalaPayment.ViewModels"
+             x:DataType="vm:CheckoutViewModels">
+
+    <VerticalStackLayout Padding="80" HorizontalOptions="Start">
+        <Entry Placeholder="Table Number" Text="{Binding TableNumber}" WidthRequest="200" Margin="0, 20, 0, 20"/>
+        <Button Text="Checkout" Command="{Binding CreateInvoiceCommand}"/>
+        <Label Text="{Binding ErrorStatus}"/>
+    </VerticalStackLayout>
+</ContentPage>

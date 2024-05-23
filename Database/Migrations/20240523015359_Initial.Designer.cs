@@ -4,6 +4,7 @@ using Database.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class MenuContextModelSnapshot : ModelSnapshot
+    [Migration("20240523015359_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,6 +40,51 @@ namespace Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CheckIns");
+                });
+
+            modelBuilder.Entity("Database.Models.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("InvoiceTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Invoice");
+                });
+
+            modelBuilder.Entity("Database.Models.InvoiceItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("longtext");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("InvoiceItem");
                 });
 
             modelBuilder.Entity("Database.Models.MenuItem", b =>
@@ -73,7 +121,6 @@ namespace Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -95,7 +142,6 @@ namespace Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<float>("Price")
@@ -145,7 +191,6 @@ namespace Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("OrderId")
@@ -165,65 +210,34 @@ namespace Database.Migrations
                     b.ToTable("OrderItem");
                 });
 
-            modelBuilder.Entity("Database.Models.MenuItemOption", b =>
+            modelBuilder.Entity("Database.Models.Receipt", b =>
                 {
-                    b.HasOne("Database.Models.MenuItem", "MenuItem")
-                        .WithMany("Options")
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Navigation("MenuItem");
-                });
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-            modelBuilder.Entity("Database.Models.MenuItemVariation", b =>
-                {
-                    b.HasOne("Database.Models.MenuItem", "MenuItem")
-                        .WithMany("Variations")
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<double>("Change")
+                        .HasColumnType("double");
 
-                    b.Navigation("MenuItem");
-                });
+                    b.Property<double>("CustomerPay")
+                        .HasColumnType("double");
 
-            modelBuilder.Entity("Database.Models.OrderItem", b =>
-                {
-                    b.HasOne("Database.Models.MenuItemOption", "MenuItemOption")
-                        .WithMany()
-                        .HasForeignKey("MenuItemOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int");
 
-                    b.HasOne("Database.Models.MenuItemVariation", "MenuItemVariation")
-                        .WithMany()
-                        .HasForeignKey("MenuItemVariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<DateTime>("PaymentTime")
+                        .HasColumnType("datetime(6)");
 
-                    b.HasOne("Database.Models.Order", "Order")
-                        .WithMany("Items")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("PaymentType")
+                        .HasColumnType("longtext");
 
-                    b.Navigation("MenuItemOption");
+                    b.HasKey("Id");
 
-                    b.Navigation("MenuItemVariation");
+                    b.HasIndex("InvoiceId");
 
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("Database.Models.MenuItem", b =>
-                {
-                    b.Navigation("Options");
-
-                    b.Navigation("Variations");
-                });
-
-            modelBuilder.Entity("Database.Models.Order", b =>
-                {
-                    b.Navigation("Items");
+                    b.ToTable("Receipt");
                 });
 
             modelBuilder.Entity("Database.Models.Reservation", b =>
@@ -292,6 +306,88 @@ namespace Database.Migrations
                     b.ToTable("TableReservation");
                 });
 
+            modelBuilder.Entity("Database.Models.Invoice", b =>
+                {
+                    b.HasOne("Database.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Database.Models.InvoiceItem", b =>
+                {
+                    b.HasOne("Database.Models.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("Database.Models.MenuItemOption", b =>
+                {
+                    b.HasOne("Database.Models.MenuItem", "MenuItem")
+                        .WithMany("Options")
+                        .HasForeignKey("MenuItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MenuItem");
+                });
+
+            modelBuilder.Entity("Database.Models.MenuItemVariation", b =>
+                {
+                    b.HasOne("Database.Models.MenuItem", "MenuItem")
+                        .WithMany("Variations")
+                        .HasForeignKey("MenuItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MenuItem");
+                });
+
+            modelBuilder.Entity("Database.Models.OrderItem", b =>
+                {
+                    b.HasOne("Database.Models.MenuItemOption", "MenuItemOption")
+                        .WithMany()
+                        .HasForeignKey("MenuItemOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Database.Models.MenuItemVariation", "MenuItemVariation")
+                        .WithMany()
+                        .HasForeignKey("MenuItemVariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Database.Models.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MenuItemOption");
+
+                    b.Navigation("MenuItemVariation");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Database.Models.Receipt", b =>
+                {
+                    b.HasOne("Database.Models.Invoice", "Invoice")
+                        .WithMany("Receipts")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+                });
+
             modelBuilder.Entity("Database.Models.TableCheckIn", b =>
                 {
                     b.HasOne("Database.Models.CheckIn", "CheckIn")
@@ -333,6 +429,23 @@ namespace Database.Migrations
             modelBuilder.Entity("Database.Models.CheckIn", b =>
                 {
                     b.Navigation("Tables");
+                });
+
+            modelBuilder.Entity("Database.Models.Invoice", b =>
+                {
+                    b.Navigation("Receipts");
+                });
+
+            modelBuilder.Entity("Database.Models.MenuItem", b =>
+                {
+                    b.Navigation("Options");
+
+                    b.Navigation("Variations");
+                });
+
+            modelBuilder.Entity("Database.Models.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Database.Models.Reservation", b =>

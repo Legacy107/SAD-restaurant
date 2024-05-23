@@ -14,4 +14,3 @@ namespace Database.Models
         public ICollection<MenuItemVariation> Variations { get; set; } = new List<MenuItemVariation>();
     }
 }
-

@@ -4,13 +4,26 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:KoalaPayment"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:views="clr-namespace:KoalaPayment.Views"
+    Shell.FlyoutBehavior="Flyout"
     Title="KoalaPayment">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Koala Paymen" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+            Title="Checkout"
+            ContentTemplate="{DataTemplate views:CheckoutViews}"
+            Route="CheckoutViews"/>
+
+        <ShellContent
+            Title="Printer"
+            ContentTemplate="{DataTemplate views:PrintPreviewViews}"
+            Route="PrinterViews"/>
+
+        <ShellContent
+            Title="Card Reader"
+            ContentTemplate="{DataTemplate views:PaymentMethodViews}"
+            Route="CardReaderViews"/>
+    </FlyoutItem>
 
 </Shell>
 

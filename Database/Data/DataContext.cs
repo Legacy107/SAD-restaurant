@@ -17,7 +17,12 @@ namespace Database.Data
                 _connectionString = $"Server={settings.DbHost};Port={settings.DbPort};User={settings.DbUser};Password={settings.DbPassword};Database={settings.DbDatabase}";
         }
 
-        public DbSet<Models.MenuItem> MenuItem { get; set; }
+        public DbSet<MenuItem> MenuItem { get; set; }
+        public DbSet<MenuItemOption> MenuItemOption { get; set; }
+        public DbSet<MenuItemVariation> MenuItemVariation { get; set; }
+        public DbSet<Invoice> Invoice { get; set; }
+        public DbSet<InvoiceItem> InvoiceItem { get; set; }
+        public DbSet<Receipt> Receipt { get; set; }
 
         public DbSet<Models.Table> Tables { get; set; }
         public DbSet<Models.Reservation> Reservations { get; set; }
