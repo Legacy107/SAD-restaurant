@@ -1,6 +1,4 @@
 using KoalaPayment.ViewModels;
-using Windows.UI.WebUI;
-
 namespace KoalaPayment.Views;
 
 public partial class CheckoutViews : ContentPage
