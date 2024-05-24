@@ -12,8 +12,8 @@ namespace KoalaMenu.ViewModels;
 internal partial class MenuViewModel : ObservableObject, INotifyPropertyChanged
 {
 	private Menu menu;
-	private ObservableCollection<MenuItemViewModel> _menuItems;
-    public ObservableCollection<MenuItemViewModel> MenuItems {
+	private ObservableCollection<MenuItemGroup> _menuItems;
+    public ObservableCollection<MenuItemGroup> MenuItems {
         get => _menuItems;
 		private set
 		{
@@ -24,6 +24,7 @@ internal partial class MenuViewModel : ObservableObject, INotifyPropertyChanged
 
 	private string _searchText = "";
 	private string _optionFilter = "";
+	private string _categoryFilter = "";
 	public string SearchText 
 	{ 
 		get => _searchText; 
@@ -31,7 +32,6 @@ internal partial class MenuViewModel : ObservableObject, INotifyPropertyChanged
 		{ 
 			_searchText = value; 
 			OnPropertyChanged();
-			FilterMenuItems();
 		} 
 	}
 	public string OptionFilter 
@@ -41,14 +41,28 @@ internal partial class MenuViewModel : ObservableObject, INotifyPropertyChanged
 		{ 
 			_optionFilter = value; 
 			OnPropertyChanged();
-			FilterMenuItems();
 		} 
 	}
-    public ObservableCollection<string> OptionNames { get; set; }
+	public string CategoryFilter 
+	{ 
+		get => _categoryFilter; 
+		set 
+		{
+			if (value == "All")
+				_categoryFilter = "";
+            else
+				_categoryFilter = value; 
+			OnPropertyChanged();
+		} 
+	}
+    public ObservableCollection<string> OptionNames { get; private set; }
+	public ObservableCollection<string> CategoryNames { get; private set; }
 
 	public int TableNumber { get; private set; }
 	private OrderBuilder orderBuilder;
 	public OrderCartViewModel OrderCart { get; private set; }
+
+	public ICommand FilterMenuItemsCommand { get; private set; }
 
 	public MenuViewModel()
 	{
@@ -60,19 +74,51 @@ internal partial class MenuViewModel : ObservableObject, INotifyPropertyChanged
         orderBuilder = new OrderBuilder(context, new Table { Id = TableNumber });
 		OrderCart = new OrderCartViewModel(orderBuilder);
 
-        _menuItems = new ObservableCollection<MenuItemViewModel>();
-		MenuItems = _menuItems;
-		foreach (var menuItem in menu.MenuItems)
-		{
-			MenuItems.Add(new MenuItemViewModel(menuItem, orderBuilder));
-		}
-
 		OptionNames = new ObservableCollection<string>(menu.GetOptionNames());
+		var Categories = menu.Categories.Select(category => category.Name).ToList();
+		Categories.Insert(0, "All");
+        CategoryNames = new ObservableCollection<string>(Categories);
+
+
+        _menuItems = new ObservableCollection<MenuItemGroup>();
+		MenuItems = _menuItems;
+		// foreach (var menuItem in menu.MenuItems)
+		// {
+		// 	MenuItems.Add(new MenuItemViewModel(menuItem, orderBuilder));
+		// }
+		UpdateMenuItems(menu.MenuItems);
+
+		FilterMenuItemsCommand = new RelayCommand(FilterMenuItems);
+    }
+
+	private void UpdateMenuItems(ObservableCollection<Database.Models.MenuItem> menuItems)
+	{
+		MenuItems.Clear();
+		foreach (var category in menu.Categories)
+		{
+			var categoryMenuItems = new ObservableCollection<MenuItemViewModel>(
+				menuItems
+					.Where(item => item.Category.Name == category.Name)
+					.Select(item => new MenuItemViewModel(item, orderBuilder))
+					.ToList()
+			);
+			MenuItems.Add(new MenuItemGroup(category.Name, categoryMenuItems));
+		}
 	}
 
 	private void FilterMenuItems()
 	{
-		var filteredMenuItems = menu.Filter(SearchText, OptionFilter);
-        MenuItems = new ObservableCollection<MenuItemViewModel>(filteredMenuItems.Select(item => new MenuItemViewModel(item, orderBuilder)));
+		var filteredMenuItems = menu.Filter(SearchText, OptionFilter, CategoryFilter);
+		UpdateMenuItems(filteredMenuItems);
+	}
+}
+
+public class MenuItemGroup : ObservableCollection<MenuItemViewModel>
+{
+	public string Name { get; private set; }
+
+	public MenuItemGroup(string category, ObservableCollection<MenuItemViewModel> menuItems) : base(menuItems)
+	{
+		Name = category;
 	}
 }

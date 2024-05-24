@@ -64,14 +64,37 @@
                             ItemsSource="{Binding OptionNames}"
                             SelectedItem="{Binding OptionFilter, Mode=TwoWay}" />
                     </StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" Spacing="5">
+                        <Label Text="Category" />
+                        <Picker
+                            x:Name="CategoryPicker"
+                            ItemsSource="{Binding CategoryNames}"
+                            SelectedItem="{Binding CategoryFilter, Mode=TwoWay}" />
+                    </StackLayout>
+
+                    <Button
+                        Text="Filter"
+                        MinimumWidthRequest="100"
+                        Command="{Binding FilterMenuItemsCommand}" />
                 </StackLayout>
 
                 <ListView
                     x:Name="MenuListView"
+                    IsGroupingEnabled="True"
                     ItemsSource="{Binding MenuItems}"
                     SelectionMode="None"
                     SeparatorVisibility="Default"
                     HasUnevenRows="True">
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding Name}"
+                                       BackgroundColor="LightGray"
+                                       FontSize="18"
+                                       FontAttributes="Bold" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

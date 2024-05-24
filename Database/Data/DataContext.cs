@@ -18,6 +18,7 @@ namespace Database.Data
         }
 
         public DbSet<MenuItem> MenuItem { get; set; }
+        public DbSet<MenuItemCategory> MenuItemCategory { get; set; }
         public DbSet<MenuItemOption> MenuItemOption { get; set; }
         public DbSet<MenuItemVariation> MenuItemVariation { get; set; }
         public DbSet<Invoice> Invoice { get; set; }

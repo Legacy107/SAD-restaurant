@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using Database.Data;
 using KoalaMenu.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace KoalaMenu.Models;
 
@@ -10,6 +9,7 @@ public class Menu
 {
     private DataContext _context;
     public ObservableCollection<Database.Models.MenuItem> MenuItems { get; private set; }
+    public ObservableCollection<Database.Models.MenuItemCategory> Categories { get; private set; }
 
     public int TableNumber { get; private set; }
 
@@ -17,13 +17,22 @@ public class Menu
     {
         _context = context;
         MenuItems = new ObservableCollection<Database.Models.MenuItem>(
-            _context.MenuItem.Include(menuItem => menuItem.Options).Include(menuItem => menuItem.Variations).ToList()
+            _context.MenuItem
+                .Include(menuItem => menuItem.Options)
+                .Include(menuItem => menuItem.Variations)
+                .Include(menuItem => menuItem.Category)
+                .OrderBy(menuItem => menuItem.Category.Name)
+                .ThenBy(menuItem => menuItem.Name)
+                .ToList()
+        );
+        Categories = new ObservableCollection<Database.Models.MenuItemCategory>(
+            _context.MenuItemCategory.ToList()
         );
     }
 
-    public ObservableCollection<Database.Models.MenuItem> Filter(string searchText, string optionText)
+    public ObservableCollection<Database.Models.MenuItem> Filter(string searchText, string optionText, string categoryText)
     {
-        if (string.IsNullOrEmpty(searchText) && string.IsNullOrEmpty(optionText))
+        if (string.IsNullOrEmpty(searchText) && string.IsNullOrEmpty(optionText) && string.IsNullOrEmpty(categoryText))
         {
             return MenuItems;
         }
@@ -33,7 +42,8 @@ public class Menu
                 MenuItems
                     .Where(item =>
                         (string.IsNullOrEmpty(searchText) || item.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)) &&
-                        (string.IsNullOrEmpty(optionText) || item.Options.Any(option => option.Name == optionText)))
+                        (string.IsNullOrEmpty(optionText) || item.Options.Any(option => option.Name == optionText)) &&
+                        (string.IsNullOrEmpty(categoryText) || item.Category.Name == categoryText))
                     .ToList()
             );
         }
