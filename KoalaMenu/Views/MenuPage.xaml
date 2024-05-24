@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:KoalaMenu.ViewModels"
+             xmlns:ContentView="clr-namespace:KoalaMenu.Views"
+             x:Class="KoalaMenu.Views.MenuPage"
+             x:Name="this">
+
+    <ContentPage.BindingContext>
+        <viewModels:MenuViewModel />
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <Grid
+            Padding="30,0"
+            RowSpacing="25"
+            ColumnSpacing="25">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="1000" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Spacing="10">
+                <Label
+                    Text="Koala Menu"
+                    Style="{StaticResource Headline}"
+                    SemanticProperties.HeadingLevel="Level1" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Label
+                        Text="Table number: "
+                        Style="{StaticResource Headline}" />
+                    <Label
+                        Text="{Binding TableNumber}"
+                        Style="{StaticResource Headline}" />
+                </StackLayout>
+            </StackLayout>
+
+            <ContentView:OrderCart
+                Grid.Row="1"
+                Grid.Column="1"
+                BindingContext="{Binding OrderCart}" />
+
+            <StackLayout Grid.Row="1" Grid.Column="0" Spacing="10">
+                <StackLayout
+                    Orientation="Horizontal"
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="10">
+                    <StackLayout HorizontalOptions="FillAndExpand" Spacing="5">
+                        <Label Text="Search" />
+                        <Entry
+                            x:Name="SearchEntry"
+                            Placeholder="Search..."
+                            Text="{Binding SearchText, Mode=TwoWay}" />
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" Spacing="5">
+                        <Label Text="Filter Option" />
+                        <Picker
+                            x:Name="OptionFilterPicker"
+                            ItemsSource="{Binding OptionNames}"
+                            SelectedItem="{Binding OptionFilter, Mode=TwoWay}" />
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" Spacing="5">
+                        <Label Text="Category" />
+                        <Picker
+                            x:Name="CategoryPicker"
+                            ItemsSource="{Binding CategoryNames}"
+                            SelectedItem="{Binding CategoryFilter, Mode=TwoWay}" />
+                    </StackLayout>
+
+                    <Button
+                        Text="Filter"
+                        MinimumWidthRequest="100"
+                        Command="{Binding FilterMenuItemsCommand}" />
+                </StackLayout>
+
+                <ListView
+                    x:Name="MenuListView"
+                    IsGroupingEnabled="True"
+                    ItemsSource="{Binding MenuItems}"
+                    SelectionMode="None"
+                    SeparatorVisibility="Default"
+                    HasUnevenRows="True">
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding Name}"
+                                       BackgroundColor="LightGray"
+                                       FontSize="18"
+                                       FontAttributes="Bold" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ContentView:MenuItem BindingContext="{Binding}" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>
+

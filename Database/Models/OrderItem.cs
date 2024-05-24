@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,3 +26,4 @@ namespace Database.Models
         public OrderItemStatus Status { get; set; } = OrderItemStatus.Pending;
     }
 }
+

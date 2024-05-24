@@ -18,10 +18,9 @@ namespace Database.Data
         }
 
         public DbSet<MenuItem> MenuItem { get; set; }
+        public DbSet<MenuItemCategory> MenuItemCategory { get; set; }
         public DbSet<MenuItemOption> MenuItemOption { get; set; }
         public DbSet<MenuItemVariation> MenuItemVariation { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItem { get; set; }
         public DbSet<Invoice> Invoice { get; set; }
         public DbSet<InvoiceItem> InvoiceItem { get; set; }
         public DbSet<Receipt> Receipt { get; set; }
@@ -29,6 +28,8 @@ namespace Database.Data
         public DbSet<Models.Table> Tables { get; set; }
         public DbSet<Models.Reservation> Reservations { get; set; }
         public DbSet<Models.CheckIn> CheckIns { get; set; }
+        public DbSet<Models.Order> Order { get; set; }
+        public DbSet<Models.OrderItem> OrderItem { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -32,5 +32,21 @@ namespace Database.Data
             await context.Tables.AddRangeAsync(tables);
             await context.SaveChangesAsync();
         }
+
+        public static async Task SeedMenuItemCategory(DataContext context)
+        {
+            if (context.MenuItemCategory.Any()) return;
+
+            List<MenuItemCategory> menuItemCategories = new List<MenuItemCategory>
+            {
+                new MenuItemCategory { Name = "Main" },
+                new MenuItemCategory { Name = "Side" },
+                new MenuItemCategory { Name = "Dessert" },
+                new MenuItemCategory { Name = "Drinks" }
+            };
+
+            await context.MenuItemCategory.AddRangeAsync(menuItemCategories);
+            await context.SaveChangesAsync();
+        }
     }
 }

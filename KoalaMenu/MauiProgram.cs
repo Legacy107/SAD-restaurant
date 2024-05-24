@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace KoalaMenu;
@@ -11,6 +11,7 @@ public static class MauiProgram
 
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
