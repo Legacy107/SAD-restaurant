@@ -2,11 +2,13 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KoalaMenu.Views.OrderCart"
+             xmlns:converters="clr-namespace:KoalaMenu.Views.Converters"
              x:Name="this">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="500" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -33,6 +35,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -44,29 +47,43 @@
                                 Text="{Binding Option.MenuItem.Name}" />
                             
                             <Label
-                                Grid.Row="1"
+                                Grid.Row="0"
                                 Grid.Column="1"
                                 Text="{Binding Option.Name}" />
                             
                             <Label
-                                Grid.Row="0"
+                                Grid.Row="1"
                                 Grid.Column="1"
                                 Text="{Binding Variation.Name}" />
 
-                            <Label
+                            <StackLayout
                                 Grid.Row="2"
                                 Grid.Column="1"
-                                Text="{Binding Quantity}" />
+                                Orientation="Horizontal"
+                                Spacing="10">
+                                <Label Text="Quantity: " />
+                                <Label Text="{Binding Quantity}" />
+                            </StackLayout>
+
+                            <StackLayout
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                                <Label Text="Price per item: " />
+                                <Label Text="{Binding Variation.Price, Converter={converters:CurrencyConverter}}" />
+                            </StackLayout>
 
                             <Label
-                                Grid.Row="3"
+                                Grid.Row="4"
                                 Grid.Column="1"
                                 Text="{Binding Note}" />
                             
-                             <Button 
-                                Grid.Row="4"
+                             <Button
+                                Grid.Row="5"
                                 Grid.Column="1"
                                 Text="Remove"
+                                Margin="0,10,0,0"
                                 Command="{Binding Source={x:Reference this}, Path=BindingContext.RemoveItemCommand}"
                                 CommandParameter="{Binding .}" /> 
                         </Grid>
@@ -75,8 +92,17 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button 
+        <StackLayout 
             Grid.Row="2"
+            Orientation="Horizontal"
+            Spacing="10"
+            Margin="0,20">
+            <Label FontSize="Large" Text="Total:" />
+            <Label FontSize="Large" Text="{Binding TotalPrice, StringFormat='${0}'}" />
+        </StackLayout>
+
+        <Button 
+            Grid.Row="3"
             Text="Place Order"
             Command="{Binding SubmitOrderCommand}" />
     </Grid>

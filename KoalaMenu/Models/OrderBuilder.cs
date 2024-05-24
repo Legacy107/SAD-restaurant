@@ -1,14 +1,23 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Database.Data;
 using Database.Models;
 
 namespace KoalaMenu.Models
 {
-    public class OrderBuilder : ObservableObject
+    public class OrderBuilder : ObservableObject, INotifyPropertyChanged
     {
         public ObservableCollection<OrderRequest> OrderRequests { get; set; }
+        private float _totalPrice = 0;
+        public float TotalPrice {
+            get => _totalPrice;
+            set {
+                _totalPrice = value;
+                OnPropertyChanged();
+            }
+        }
 
         private Table table;
         DataContext _context;
@@ -23,6 +32,13 @@ namespace KoalaMenu.Models
         public void AddOrderItem(MenuItemVariation variation, MenuItemOption option, int quantity, string note)
         {
             OrderRequests.Add(new OrderRequest(variation, option, quantity, note));
+            TotalPrice += variation.Price * quantity;
+        }
+
+        public void RemoveOrderItem(OrderRequest orderRequest)
+        {
+            OrderRequests.Remove(orderRequest);
+            TotalPrice -= orderRequest.Variation.Price * orderRequest.Quantity;
         }
 
         public void SubmitOrder()
@@ -46,6 +62,7 @@ namespace KoalaMenu.Models
 
             // Clear the orderItems list
             OrderRequests.Clear();
+            TotalPrice = 0;
 
             // Save the order to the database
             _context.Order.Add(order);
