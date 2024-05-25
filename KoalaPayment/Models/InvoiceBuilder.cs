@@ -17,7 +17,7 @@ namespace KoalaPayment.Models
                 return null;
             }
 
-            var order = context.Orders
+            var order = context.Order
                 .Include(o => o.Items)
                 .SingleOrDefault(o => o.TableId == table.Id);
 

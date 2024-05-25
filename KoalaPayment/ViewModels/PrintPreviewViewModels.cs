@@ -35,8 +35,8 @@ namespace KoalaPayment.ViewModels
                 .FromSql($@"
                     SELECT Invoice.* 
                     FROM Invoice
-                    INNER JOIN Orders ON Invoice.OrderId = Orders.Id
-                    INNER JOIN Tables ON Orders.TableId = Tables.Id
+                    INNER JOIN `Order` ON Invoice.OrderId = `Order`.Id
+                    INNER JOIN Tables ON `Order`.TableId = Tables.Id
                     WHERE Tables.Id = {TableNumber}")
                 .SingleOrDefault();
 
