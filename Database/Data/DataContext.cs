@@ -28,6 +28,7 @@ namespace Database.Data
         public DbSet<Models.Table> Tables { get; set; }
         public DbSet<Models.Reservation> Reservations { get; set; }
         public DbSet<Models.CheckIn> CheckIns { get; set; }
+        public DbSet<Models.TableCheckIn> TableCheckIn { get; set; }
         public DbSet<Models.Order> Order { get; set; }
         public DbSet<Models.OrderItem> OrderItem { get; set; }
 

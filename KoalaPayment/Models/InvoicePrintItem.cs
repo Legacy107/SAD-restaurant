@@ -18,8 +18,8 @@ namespace KoalaPayment.Models
             var table = context.Tables
                 .FromSql($@"
                     SELECT Tables.* FROM Tables
-                    INNER JOIN Orders ON Tables.Id = Orders.TableId
-                    INNER JOIN Invoice ON Orders.Id = Invoice.OrderId
+                    INNER JOIN `Order` ON Tables.Id = `Order`.TableId
+                    INNER JOIN Invoice ON `Order`.Id = Invoice.OrderId
                     WHERE Invoice.id = {invoice.Id}")
                 .SingleOrDefault()?? throw new Exception("Cannot find table");
 

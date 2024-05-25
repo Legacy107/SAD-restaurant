@@ -2,6 +2,7 @@
 
 using Database.Data;
 using Database.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace KoalaPayment.Models
 {
@@ -9,14 +10,26 @@ namespace KoalaPayment.Models
     {
         public static bool ProcessPayment(DataContext context, Payment payment, Invoice invoice)
         {
-            var order = context.Orders
+            var order = context.Order
                 .FirstOrDefault(o => o.Id == invoice.OrderId);
             if (order == null)
             {
                 return false;
             }
             order.Status = OrderStatus.Completed;
-            context.Orders.Update(order);
+            context.Order.Update(order);
+
+            var table = context.Tables.Find(order.TableId);
+            var checkInExist = context.TableCheckIn
+                .Include(tc => tc.CheckIn)
+                .Any(tc => tc.TableId == order.TableId && !tc.CheckIn.IsFinished);
+            if (checkInExist)
+            {
+                var tableCheckIn = context.TableCheckIn
+                    .Include(tc => tc.CheckIn)
+                    .FirstOrDefault(tc => tc.TableId == order.TableId && !tc.CheckIn.IsFinished);
+                tableCheckIn!.CheckIn.IsFinished = true;
+            }
 
             double totalAmount = 0;
             
