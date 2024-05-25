@@ -31,12 +31,13 @@ namespace KoalaReception.Models
             var result = new List<TableDTO>();
             var reservedTableIds = new List<int>();
             var checkedInTableIds = new List<int>();
+            var currentTime = DateTime.Now;
 
             var reservedTables = await _context.Tables
                                                .Include(t => t.Reservations)
                                                .ThenInclude(tr => tr.Reservation)
                                                .Where(t => t.Reservations.Any(
-                                                    tr => !tr.Reservation.HasShownUp && (tr.Reservation.ReservationStart > DateTime.Now.AddMinutes(-30) && tr.Reservation.ReservationStart < DateTime.Now.AddHours(2))
+                                                    tr => !tr.Reservation.HasShownUp && (tr.Reservation.ReservationStart > currentTime.AddMinutes(-30) && tr.Reservation.ReservationStart < currentTime.AddHours(2))
                                                    )
                                                )
                                                .ToListAsync();
@@ -50,7 +51,7 @@ namespace KoalaReception.Models
                     AffectedStartingTime = reservedTable.Reservations
                                                         .FirstOrDefault(
                                                             tr => !tr.Reservation.HasShownUp &&
-                                                                (tr.Reservation.ReservationStart > DateTime.Now.AddMinutes(-30) && tr.Reservation.ReservationStart < DateTime.Now.AddHours(2))
+                                                                (tr.Reservation.ReservationStart > currentTime.AddMinutes(-30) && tr.Reservation.ReservationStart < currentTime.AddHours(2))
                                                         )!.Reservation.ReservationStart
                 });
                 reservedTableIds.Add(reservedTable.Id);
@@ -142,8 +143,9 @@ namespace KoalaReception.Models
 
         public async Task<ReservationDTO?> CheckReservationExists(Guid reservationId)
         {
+            var currentTime = DateTime.Now;
             var validReservationExists = await _context.Reservations
-                                    .AnyAsync(r => r.Id == reservationId && r.ReservationStart > DateTime.Now.AddHours(2));
+                                    .AnyAsync(r => r.Id == reservationId && r.ReservationStart > currentTime.AddHours(2));
             if (validReservationExists)
             {
                 var reservation = await _context.Reservations

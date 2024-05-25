@@ -18,7 +18,6 @@ namespace KoalaReception.ViewModels
         private string _customerName = "";
         private Reservation _reservation;
         private ObservableCollection<TableDTO> _tables;
-        private string _selectedFilter;
         private List<int> _disabledTableIds;
         private bool _areInputsValid;
         private ReservationDTO _oldReservationDetails;
@@ -256,7 +255,7 @@ namespace KoalaReception.ViewModels
 
             // Add booking periods with 30-minute interval
             // Generate time slots for the next two days
-            var currentDate = DateTime.Now.Date;
+            var currentDate = currentTime.Date;
             for (int i = 0; i < 3; i++)
             {
                 // Add booking periods with 30-minute interval
@@ -324,7 +323,7 @@ namespace KoalaReception.ViewModels
 
                     SelectedTables.Clear();
                     Tables = new ObservableCollection<TableDTO>();
-                    new Task(async () =>
+                    Task.Run(async () =>
                     {
                         var tableDTOs = await _reservation.GetTables(ConvertStringToDateTime(value));
                         _disabledTableIds.Clear();
@@ -333,7 +332,7 @@ namespace KoalaReception.ViewModels
                         {
                             if (_oldReservationDetails != null && _oldReservationDetails.TableIds.Contains(tableDTO.TableId) && ConvertStringToDateTime(value) == _oldReservationDetails.ReservationStart)
                             {
-                                SelectedTables.Add(tableDTO);
+                                MainThread.BeginInvokeOnMainThread(() => SelectedTables.Add(tableDTO));
                             } 
                             else if (_oldReservationDetails != null && _oldReservationDetails.TableIds.Contains(tableDTO.TableId) &&
                                 ConvertStringToDateTime(value) > _oldReservationDetails.ReservationStart.AddHours(-2) && ConvertStringToDateTime(value) < _oldReservationDetails.ReservationStart.AddHours(2)
@@ -346,9 +345,13 @@ namespace KoalaReception.ViewModels
                                 _disabledTableIds.Add(tableDTO.TableId);
                             }
                         }
-                        NoAvailableTable = !tableDTOs.Any(table => table.Status == TableStatusEnum.Available || table.Status == TableStatusEnum.Selected);
-                        Tables = new ObservableCollection<TableDTO>(tableDTOs);
-                    }).Start();
+                        MainThread.BeginInvokeOnMainThread(() =>
+                        {
+                            NoAvailableTable = !tableDTOs.Any(table => table.Status == TableStatusEnum.Available || table.Status == TableStatusEnum.Selected);
+                            Tables = new ObservableCollection<TableDTO>(tableDTOs);
+                        });
+
+                    }).ConfigureAwait(false);
                     ValidatePeriodSelection();
                     ValidateAll();
                     OnPropertyChanged();

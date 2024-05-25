@@ -13,19 +13,20 @@ namespace KoalaReception.Models
 
         public async Task<string> CheckInWithReservation(Guid reservationId)
         {
+            var currentTime = DateTime.Now;
             var reservationExist = await _context.Reservations
                                     .Include(r => r.Tables)
                                     .AnyAsync(r => r.Id == reservationId && !r.HasShownUp
-                                        && r.ReservationStart > DateTime.Now.AddMinutes(-30)
-                                        && r.ReservationStart < DateTime.Now.AddMinutes(30));
+                                        && r.ReservationStart > currentTime.AddMinutes(-30)
+                                        && r.ReservationStart < currentTime.AddMinutes(30));
             
             if (!reservationExist) return "Sorry the reservation is invalid";
 
             var reservation = await _context.Reservations
                                     .Include(r => r.Tables)
                                     .FirstAsync(r => r.Id == reservationId
-                                        && r.ReservationStart > DateTime.Now.AddMinutes(-30)
-                                        && r.ReservationStart < DateTime.Now.AddMinutes(30));
+                                        && r.ReservationStart > currentTime.AddMinutes(-30)
+                                        && r.ReservationStart < currentTime.AddMinutes(30));
 
             var reservedTableIds = new List<int>();
             foreach (var tableReservation in reservation.Tables)

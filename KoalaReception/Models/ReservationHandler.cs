@@ -37,7 +37,8 @@ namespace KoalaReception.Models
 
         public async Task<bool> ChangeReservation(Guid reservationId, string newName, DateTime newPeriod, List<int> newTableIds)
         {
-            var reservation = await _context.Reservations.FirstAsync(r => r.Id == reservationId && r.ReservationStart > DateTime.Now.AddHours(2));
+            var currentTime = DateTime.Now;
+            var reservation = await _context.Reservations.FirstAsync(r => r.Id == reservationId && r.ReservationStart > currentTime.AddHours(2));
             if (reservation == null) return false;
 
             var tables = await _context.Tables.ToListAsync();
