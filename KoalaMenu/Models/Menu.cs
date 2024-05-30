@@ -7,17 +7,13 @@ namespace KoalaMenu.Models;
 
 public class Menu
 {
-    private DataContext _context;
     public ObservableCollection<Database.Models.MenuItem> MenuItems { get; private set; }
     public ObservableCollection<Database.Models.MenuItemCategory> Categories { get; private set; }
 
-    public int TableNumber { get; private set; }
-
     public Menu(DataContext context)
     {
-        _context = context;
         MenuItems = new ObservableCollection<Database.Models.MenuItem>(
-            _context.MenuItem
+            context.MenuItem
                 .Include(menuItem => menuItem.Options)
                 .Include(menuItem => menuItem.Variations)
                 .Include(menuItem => menuItem.Category)
@@ -26,7 +22,7 @@ public class Menu
                 .ToList()
         );
         Categories = new ObservableCollection<Database.Models.MenuItemCategory>(
-            _context.MenuItemCategory.ToList()
+            context.MenuItemCategory.ToList()
         );
     }
 

@@ -16,6 +16,7 @@ namespace Database.Models
     {
         public int Id { get; set; }
         public required int TableId { get; set; }
+        public Table Table { get; set; } = null!;
         public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
         public DateTime Created { get; set; } = DateTime.Now;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;

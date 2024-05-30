@@ -150,7 +150,7 @@ public partial class MenuItemViewModel : INotifyPropertyChanged
 
     private void NoteChanged(object? note)
     {
-        if (note is Entry entry && entry.BindingContext is Database.Models.MenuItem menuItem)
+        if (note is Entry entry)
         {
             Note = entry.Text;
         }
