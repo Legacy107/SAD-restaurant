@@ -11,7 +11,7 @@
 
         <Label 
             Grid.Row="0"
-            Text="Cancelled Order"
+            Text="Cancelled Order Items"
             FontSize="Title"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
